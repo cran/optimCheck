@@ -1,9 +1,9 @@
-## ---- eval = FALSE, echo = FALSE-----------------------------------------
+## ----eval = FALSE, echo = FALSE-----------------------------------------------
 #  
 #  rmarkdown::render("optimCheck-quicktut.Rmd") # R code to render vignette
 #  
 
-## ---- echo = -1----------------------------------------------------------
+## ----echo = -1----------------------------------------------------------------
 set.seed(2608) # set seed to fix output
 d <- 12 # dimension of optimization problem
 
@@ -20,11 +20,11 @@ xfit <- optim(fn = objfun,                    # objective function
               control = list(maxit = 1e5))    # very large max. number of iterations
 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # any value other than 0 means optim failed to converge
 xfit$convergence 
 
-## ---- fig.width = 10, fig.height = 6, out.width = "97%"------------------
+## ----fig.width = 10, fig.height = 6, out.width = "97%"------------------------
 require(optimCheck) # load package
 
 # projection plots
@@ -36,13 +36,13 @@ oproj <- optim_proj(fun = objfun,              # objective function
                     xnames = xnames)
 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sapply(oproj, function(x) dim(as.matrix(x)))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 oproj # same print method as summary(oproj)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 diff(oproj) # equivalent to summary(oproj)$xdiff
 
 # here's exactly what these are
@@ -51,21 +51,21 @@ xopt <- summary(oproj)$xopt # optimal solution in each projection plot
 xdiff <- cbind(abs = xopt-xsol, rel = (xopt-xsol)/abs(xsol))
 range(xdiff - diff(oproj))
 
-## ----eval = FALSE--------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  testthat::test_package("optimCheck", reporter = "progress")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 orefit <- optim_refit(fun = objfun,        # objective function
                       xsol = xfit$par,     # potential solution
                       maximize = FALSE)    # indicates that a local minimum is sought
 summary(orefit) # same print method as orefit
 
-## ---- fig.width = 10, fig.height = 6, out.width = "97%"------------------
+## ----fig.width = 10, fig.height = 6, out.width = "97%"------------------------
 # projection plots with refined solution
 optim_proj(xsol = orefit$xopt, fun = objfun,
            xrng = .5, maximize = FALSE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # gradient of the objective function
 objgrad <- function(x) 2 * drop(A %*% x - b)
 
